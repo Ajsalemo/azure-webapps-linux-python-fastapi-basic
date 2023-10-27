@@ -52,8 +52,8 @@ stages:
       inputs:
         rootFolderOrFile: '$(projectRoot)'
         includeRootFolder: false
-        archiveType: zip
-        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+        archiveType: tar
+        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).tar
         replaceExistingArchive: true
 
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
@@ -84,6 +84,6 @@ stages:
             inputs:
               azureSubscription: $(azureServiceConnectionId)
               appName: $(webAppName)
-              package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+              package: $(Pipeline.Workspace)/drop/$(Build.BuildId).tar
               appType: webAppLinux
               startUpCommand: "gunicorn --workers 3 --worker-class uvicorn.workers.UvicornWorker --timeout 600 --access-logfile '-' --error-logfile '-' app:app"
