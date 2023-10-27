@@ -55,8 +55,9 @@ jobs:
         with:
           name: python-app
 
-      - name: Unzip artifact for deployment
-        run: unzip release.zip
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
@@ -64,4 +65,8 @@ jobs:
         with:
           app-name: 'ansalemo-fast-api'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_977C3F03495A42128E48AA45DAAAE064 }}
+          package: release.zip
+
+      - name: logout
+        run: |
+          az logout
