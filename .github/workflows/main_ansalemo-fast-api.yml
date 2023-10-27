@@ -55,6 +55,9 @@ jobs:
         with:
           name: python-app
 
+      - name: Unzip artifact for deployment
+        run: unzip release.zip
+
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
