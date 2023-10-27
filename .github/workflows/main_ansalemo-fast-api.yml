@@ -31,15 +31,17 @@ jobs:
         run: pip install -r requirements.txt
 
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
-      - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+      # - name: Zip artifact for deployment
+      #   run: zip release.zip ./* -r
+      - name: Tar artifact for deployment
+        run: tar -czvf release.tar.gz ./* -r
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v3
         with:
           name: python-app
           path: |
-            release.zip
+            release.tar.gz
             !venv/
 
   deploy:
@@ -65,7 +67,7 @@ jobs:
         with:
           app-name: 'ansalemo-fast-api'
           slot-name: 'Production'
-          package: release.zip
+          package: release.tar.gz
 
       - name: logout
         run: |
