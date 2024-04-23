@@ -75,4 +75,5 @@ jobs:
         with:
           app-name: 'ansalemo-fastapi'
           slot-name: 'Production'
+          startUpCommand: "gunicorn --worker-class uvicorn.workers.UvicornWorker --timeout 600 --access-logfile '-' --error-logfile '-' app:app"
           
