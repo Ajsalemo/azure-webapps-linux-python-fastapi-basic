@@ -22,8 +22,8 @@ variables:
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
 
-  # Python version: 3.10
-  pythonVersion: '3.10'
+  # Python version: 3.12
+  pythonVersion: '3.12'
 
 stages:
 - stage: Build
@@ -52,7 +52,7 @@ stages:
       inputs:
         rootFolderOrFile: '$(projectRoot)'
         includeRootFolder: false
-        archiveType: tar
+        archiveType: zip
         archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
         replaceExistingArchive: true
 
@@ -86,4 +86,4 @@ stages:
               appName: $(webAppName)
               package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
               appType: webAppLinux
-              startUpCommand: "gunicorn --workers 3 --worker-class uvicorn.workers.UvicornWorker --timeout 600 --access-logfile '-' --error-logfile '-' app:app"
+              startUpCommand: "gunicorn --worker-class uvicorn.workers.UvicornWorker --timeout 600 --access-logfile '-' --error-logfile '-' app:app"
