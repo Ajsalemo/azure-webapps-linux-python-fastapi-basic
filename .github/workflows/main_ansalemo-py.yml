@@ -2,7 +2,7 @@
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 # More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
 
-name: Build and deploy Python app to Azure Web App - ansalemo-fastapi-2
+name: Build and deploy Python app to Azure Web App - ansalemo-py
 
 on:
   push:
@@ -24,12 +24,11 @@ jobs:
 
       - name: Create and activate virtual environment - run pip install
         run: |
-          python -m venv antenv
-          source antenv/bin/activate
-          pip install -r requirements.txt
+          python -m venv venv
+          source venv/bin/activate
       
-      # - name: Install dependencies
-      #   run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: pip install -r requirements.txt
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
@@ -42,6 +41,7 @@ jobs:
           name: python-app
           path: |
             release.zip
+            !venv/
 
   deploy:
     runs-on: ubuntu-latest
@@ -65,14 +65,14 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_6304A9A455EC4F15BC1AC9A84DAF8E43 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_FF544FCF8E4E44139958386E38FD47B6 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_1A5420F09DED4BFBA948690290592F3B }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_AF87EB6C9DBC43A69CF4B6318B7624C1 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_5A2435FB18744A5EB1B6CA9E506D3499 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_51A782943BB24493A177D73555241934 }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'ansalemo-fastapi-2'
+          app-name: 'ansalemo-py'
           slot-name: 'Production'
           
